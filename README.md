@@ -1,4 +1,4 @@
 PyfxTrade
 =========
 
-A Python library for accessing Oandas fxTrade REST API
+A Python library for accessing Oanda's fxTrade REST API
