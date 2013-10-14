@@ -46,7 +46,21 @@ class Account(object):
         object.__setattr__(self, 'open_orders', info['open_orders'])
 
     def __getattribute__(self, name):
-        if not object.__getattribute__(self, 'balance'):
+        lazy_list = [
+            'balance',
+            'unrealized_pl',
+            'realized_pl',
+            'nav',
+            'margin_used',
+            'margin_available',
+            'open_trades',
+            'open_orders',
+        ]
+
+        # If we're accessing one of our lazy loaded properties then make the
+        # web call to load the rest of the info. There should always be a balance
+        # so we just look to see if it's still None
+        if name in lazy_list and not object.__getattribute__(self, 'balance'):
             object.__getattribute__(self, '_load_account_status')()
 
         return object.__getattribute__(self, name)
